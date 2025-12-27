@@ -15,9 +15,11 @@
 - **Image Support** - Read PNG, BMP, and DIB images from clipboard
 - **Text Support** - Read text content from clipboard
 - **Auto-Detection** - Automatically detects content type
+- **Autopaste** - Automatically captures clipboard content when you press Ctrl+V
+- **AI Analysis Ready** - Cached pastes ready for AI to analyze on demand
 - **File Output** - Save images directly to files for use with other tools
 - **Base64 Output** - Get image data as base64 for inline use
-- **Zero Dependencies** - Uses native PowerShell (no external binaries)
+- **Non-Blocking** - Autopaste monitoring doesn't interfere with normal paste operations
 
 ## Quick Start
 
@@ -116,6 +118,34 @@ Check if the clipboard currently contains an image.
 Do I have an image in my clipboard?
 ```
 
+### `get_last_paste`
+
+Get the most recently pasted content (captured automatically when you pressed Ctrl+V). Returns text content directly or file path for images. This is the key tool for the autopaste feature.
+
+**Example usage:**
+```
+What did I just paste?
+Analyze my last paste
+```
+
+### `autopaste_status`
+
+Check if autopaste monitoring is active and get information about the last captured paste.
+
+**Example usage:**
+```
+Is autopaste working?
+```
+
+### `clear_paste_cache`
+
+Clear the cached paste content. Useful for privacy or to reset state.
+
+**Example usage:**
+```
+Clear my paste history
+```
+
 ## Usage Examples
 
 ### Basic Image Paste Workflow
@@ -136,6 +166,20 @@ Do I have an image in my clipboard?
 2. Ask: *"Read my clipboard"*
 3. Returns the text content directly
 
+### Autopaste Workflow (NEW!)
+
+The autopaste feature automatically captures whatever you paste, so the AI can analyze it without you having to explicitly request a clipboard read:
+
+1. Copy something (text or image)
+2. Press `Ctrl+V` to paste it anywhere (your normal paste works as expected)
+3. Ask your AI assistant: *"What did I just paste?"* or *"Analyze my last paste"*
+4. The AI uses `get_last_paste` to retrieve and analyze the content
+
+This is especially useful for:
+- Quick image analysis after pasting a screenshot
+- Reviewing what you just pasted
+- Seamless workflow without explicit clipboard commands
+
 ## How It Works
 
 This MCP server uses PowerShell to access the native Windows clipboard API:
@@ -144,7 +188,15 @@ This MCP server uses PowerShell to access the native Windows clipboard API:
 2. **Image Reading**: Uses `[System.Windows.Forms.Clipboard]::GetImage()` and saves as PNG
 3. **Text Reading**: Uses `[System.Windows.Forms.Clipboard]::GetText()`
 
-No external dependencies or native binaries required - just Node.js and PowerShell (included with Windows).
+### Autopaste Technology
+
+The autopaste feature uses [uiohook-napi](https://github.com/SnosMe/uiohook-napi) for non-blocking global keyboard monitoring:
+
+- **Non-blocking**: Keyboard events are observed, not intercepted - your normal Ctrl+V paste always works
+- **Automatic caching**: When Ctrl+V is detected, clipboard content is automatically read and cached
+- **Graceful degradation**: If the keyboard hook fails to initialize, all other clipboard tools continue to work normally
+
+No external dependencies or native binaries required for core functionality - just Node.js and PowerShell (included with Windows).
 
 ## Requirements
 
