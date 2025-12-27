@@ -1,0 +1,56 @@
+{
+  "name": "mcp-windows-clipboard",
+  "version": "1.0.0",
+  "description": "MCP server for native Windows clipboard access with image support",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "mcp-windows-clipboard": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "tsx src/index.ts",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint src tests",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "mcp",
+    "clipboard",
+    "windows",
+    "image",
+    "paste",
+    "model-context-protocol",
+    "claude",
+    "opencode",
+    "ai"
+  ],
+  "author": "marco-jardim",
+  "license": "GPL-3.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marco-jardim/mcp-windows-clipboard.git"
+  },
+  "bugs": {
+    "url": "https://github.com/marco-jardim/mcp-windows-clipboard/issues"
+  },
+  "homepage": "https://github.com/marco-jardim/mcp-windows-clipboard#readme",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "os": [
+    "win32"
+  ],
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "zod": "^3.23.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0",
+    "vitest": "^1.0.0",
+    "tsx": "^4.0.0"
+  }
+}
